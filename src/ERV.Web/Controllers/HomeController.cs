@@ -22,12 +22,13 @@ namespace ERV.Web.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
             try
             {
-                var result = await ApiClient.GetCountries(InputParameter, AppSettings.SecretKey);
-               
+                var result = (await ApiClient.GetCountries(InputParameter, AppSettings.SecretKey))
+                    .ToPagedList(page ?? 1, 21);
+
                 return View(result);
             }
             catch (Exception ex)
