@@ -1,0 +1,47 @@
+﻿@model List<CountryInfoDTO>
+@{
+    var topHeader = new TopHeaderDTO()
+    {
+        AdditionalText = Lang("_Countries"),
+        Image = string.Concat(settings.Value.BaseUrl, "images/top/continent.jpg"),
+        BreadCrumb = new List<BreadCrumbDTO>()
+        {
+             new BreadCrumbDTO()
+             {
+                 Action = Url.Action("Index", "Home"),
+                 Text = Lang("_Home"),
+                 Order = 1
+             },
+            new BreadCrumbDTO()
+            {
+                Action = string.Empty,
+                Text = Lang("_Countries"),
+                Order = 2,
+            }
+        }
+    };
+}
+
+@await Html.PartialAsync("~/Views/Shared/Partials/_Top.cshtml", topHeader)
+
+<section class="border-bottom mt-2">
+    <div class="container">
+        @if (Model !=null && Model.Any())
+        {
+            <div class="row mb-1 align-items-center header-text mb-3">
+                <div class="col-sm-12">
+                    <h3 class="font-weight-bold heading">
+                        @Lang("_CountryList")
+                    </h3>
+                </div>
+            </div>
+            <div class="row gx-5 justify-content-between content-row">
+                @foreach (var item in Model)
+                {
+                    item.Index = Model.ToList().IndexOf(item) + 1;
+                    @await Html.PartialAsync("~/Views/Country/Partials/_Country.cshtml", item)
+                }
+            </div>
+        }
+    </div>
+</section>

@@ -1,0 +1,75 @@
+﻿@model SubRegionDTO
+@{
+    var countries = Enumerable.Empty<CountryDTO>().ToList();
+    var topHeader = new TopHeaderDTO()
+    {
+        AdditionalText = Model.Name,
+        Image = string.Concat(settings.Value.BaseUrl, "images/top/continent.jpg"),
+        BreadCrumb = new List<BreadCrumbDTO>()
+        {
+            new BreadCrumbDTO()
+            {
+                Action = Url.Action("Index", "Home"),
+                Text = Lang("_Home"),
+                Order = 1
+            },
+            new BreadCrumbDTO()
+            {
+                Action = Url.Action("Index", "Region"),
+                Text = Model.RegionName,
+                Order = 2
+            },
+            new BreadCrumbDTO()
+            {
+                Action = string.Empty,
+                Text = Lang("_SubRegion"),
+                Order = 3,
+            }
+        }
+    };
+}
+
+@await Html.PartialAsync("~/Views/Shared/Partials/_Top.cshtml", topHeader)
+
+<section class="py-5 border-bottom mt-2">
+    <div class="container px-5 my-5 px-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bolder">@Model.Name</h2>
+            <p class="mb-1"><span class="fw-bold">@Lang("_Region"): </span><span><a asp-controller="Region" asp-action="Index" asp-route-name="@Model.RegionName" class="btn btn-link text-decoration-none">@Model.RegionName</a></span></p>
+            <p class="mb-1"><span class="fw-bold">@Lang("_Population"): </span><span>@String.Format("{0:n0}", Model.TotalPopulation)</span></p>
+        </div>
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-12 col-sm-12">
+                @if (Model.Countries != null && Model.Countries.Any())
+                {
+                    <div class="mb-2">
+                        <a asp-controller="Region" asp-action="Index" asp-route-name="@Model.RegionName" class="btn btn-link text-decoration-none">@string.Concat(Lang("_GoBack"), Model.RegionName)</a>
+                    </div>
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-center">
+                                <div class="ms-4">
+                                    <div class="mb-1">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h4 class="fw-bold mb-2">
+                                                    @Lang("_Countries"):
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            @foreach (var item in Model.Countries.OrderBy(row => row.Name).ToList())
+                                            {
+                                                @await Html.PartialAsync("~/Views/Country/Partials/_CountryFlag.cshtml", item)
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,28 @@
+﻿@model TopHeaderDTO
+
+<div class="hero" style="background-image: url('@Model.Image');">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-9 text-center mt-5">
+                <h1 class="heading">
+                    @Model.AdditionalText
+                </h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb text-center justify-content-center">
+                        @foreach (var item in Model.BreadCrumb.OrderBy(row => row.Order).ToList())
+                        {
+                            if (!string.IsNullOrWhiteSpace(item.Action))
+                            {
+                                <li class="breadcrumb-item"><a href="@item.Action" style="font-size:1rem;">@item.Text</a></li>
+                            }
+                            else
+                            {
+                                <li class="breadcrumb-item active text-white-70" style="font-size:1rem;" aria-current="page">@item.Text</li>
+                            }
+                        }
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿@model CountryInfoDTO
+
+@if (Model != null)
+{
+    var addClass = Model.Index % 3 != 0 ? "mb-lg-0" : "";
+    <div class="col-sm-6 col-lg-4 mb-3 @addClass">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="feature text-white rounded-3">
+                    <img class="img-fluid rounded mx-auto d-block" src="@Model?.Flag?.Png" />
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <h5 class="fw-bolder mt-3">@Model.Name</h5>
+            </div>
+            <div class="col-sm-12">
+                <ul class="country-info">
+                    @if (!string.IsNullOrWhiteSpace(Model.Region))
+                    {
+                        <li><span>@Lang("_Region"): </span>  <a class="btn btn-link text-decoration-none" asp-controller="Region" asp-action="Index" asp-route-name="@Model.Region">@Model.Region</a></li>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.SubRegion))
+                    {
+                        <li><span>@Lang("_SubRegion"): </span> <a class="btn btn-link text-decoration-none" asp-controller="Region" asp-action="SubRegion" asp-route-region="@Model.Region" asp-route-subregion="@Model.SubRegion">@Model.SubRegion</a></li>
+                    }
+                    <li class="mt-1">
+                        <a class="text-decoration-none text-center" asp-controller="Country" asp-action="Country" asp-route-code="@Model.Code">
+                            @Lang("_ViewCountry")
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}

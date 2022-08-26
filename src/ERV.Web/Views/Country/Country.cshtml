@@ -1,0 +1,165 @@
+﻿@model CountryDTO
+@{
+    var topHeader = new TopHeaderDTO()
+    {
+        AdditionalText = Model.Name,
+        Image = string.Concat(settings.Value.BaseUrl, "images/top/continent.jpg"),
+        BreadCrumb = new List<BreadCrumbDTO>()
+        {
+                new BreadCrumbDTO()
+                {
+                    Action = Url.Action("Index", "Home"),
+                    Text = Lang("_Home"),
+                    Order = 1
+                },
+                new BreadCrumbDTO()
+                {
+                    Action = Url.Action("Index", "Country"),
+                    Text = Lang("_Countries"),
+                    Order = 2
+                },
+            new BreadCrumbDTO()
+            {
+                Action = string.Empty,
+                Text = Lang("_Country"),
+                Order = 3,
+            }
+        }
+    };
+}
+
+@await Html.PartialAsync("~/Views/Shared/Partials/_Top.cshtml", topHeader)
+
+<section class="py-5 border-bottom mt-2">
+    <div class="container px-5 my-5 px-5">
+        <div class="text-center mb-5">
+            <div class="feature-image flex-shrink-0 text-white rounded-3">
+                <img class="img-fluid rounded mx-auto d-block" src="@Model?.Flag?.Png" />
+            </div>
+            <h2 class="fw-bolder">@Model.Name</h2>
+            <p class="lead mb-0">@Lang("_MainInformation")</p>
+        </div>
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-6">
+                <div class="card mb-2">
+                    <div class="card-body p-4">
+                        <div class="d-flex">
+                            <div class="ms-4">
+                                @if(Model.CapitalCities !=null && Model.CapitalCities.Any())
+                                {
+                                    <p class="mb-1">
+                                        <span class="fw-bold">
+                                            @if (Model.CapitalCities.Count > 1)
+                                            {
+                                                @Lang("_CapitalCities")
+                                            }
+                                            else
+                                            {
+                                                @Lang("_CapitalCity")
+                                            }:
+                                        </span>
+                                        <ul>
+                                            @foreach (var item in Model.CapitalCities)
+                                            {
+                                                <li>@item</li>
+                                            }
+                                        </ul>
+                                    </p>
+                                }
+                                <p class="mb-1"><span class="fw-bold">@Lang("_Population"): </span><span>@String.Format("{0:n0}", @Model.Population)</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.Languages != null && Model.Languages.Any())
+                {
+                    <div class="card mb-2">
+                        <div class="card-body p-4">
+                            <div class="d-flex">
+                                <div class="ms-4">
+                                    <p class="mb-1">
+                                        <span class="fw-bold">
+                                            @if (Model.Languages.Count > 1)
+                                            {
+                                                @Lang("_OfficialLanguages")
+                                            }
+                                            else
+                                            {
+                                                @Lang("_OfficialLanguage")
+                                            }:
+                                        </span>
+                                        <ul>
+                                            @foreach (var item in Model.Languages)
+                                            {
+                                                <li>@item.Name (@item.Code)</li>
+                                            }
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-6">
+                @if (Model.Currencies != null && Model.Currencies.Any())
+                {
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <div class="d-flex">
+                                <div class="ms-4">
+                                    <p class="mb-1">
+                                        <span class="fw-bold">
+                                            @if (Model.Currencies.Count > 1)
+                                            {
+                                                @Lang("_OfficialCurrencies")
+                                            }
+                                            else
+                                            {
+                                                @Lang("_OfficialCurrency")
+                                            }:
+                                        </span>
+                                        <ul>
+                                            @foreach (var item in Model.Currencies)
+                                            {
+                                                <li>@item.Code - @item.Name (@item.Symbol)</li>
+                                            }
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-12">
+                @if (Model.BorderCountries != null && Model.BorderCountries.Any())
+                {
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-center">
+                                <div class="ms-4">
+                                    <div class="mb-1">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h4 class="fw-bold mb-2">
+                                                    @Lang("_BorderedBy"):
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            @foreach (var item in Model.BorderCountries)
+                                            {
+                                                @await Html.PartialAsync("~/Views/Country/Partials/_CountryFlag.cshtml", item)
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

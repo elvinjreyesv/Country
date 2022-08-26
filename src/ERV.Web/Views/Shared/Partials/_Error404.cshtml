@@ -1,0 +1,43 @@
+﻿@model EErrorCodeClientApi;
+
+@{
+    ViewData["Title"] = ViewBag.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="hero page-inner overlay" style="background-image: url('@string.Concat(settings.Value.BaseUrl, "images/Home/Top/error.jpg")')">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-9 text-center mt-5">
+                <h1 class="heading" data-aos="fade-up">
+                    404 - @Lang("_Notfound")
+                </h1>
+
+                <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
+                    <ol class="breadcrumb text-center justify-content-center">
+                        <li class="breadcrumb-item"><a href="index.html">@Lang("_Home")</a></li>
+                        <li class="breadcrumb-item" style="color:#fff;">Error</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-12">
+                <div class="text-center">
+                    <img src="~/images/icons/code-error.png" class="img-fluid text-center" />
+                </div>
+                <h1>@Lang("_Notfound")</h1>
+                <br />
+                <span class="font-weight-bold">@Lang("_Global_PageNoFound")</span>
+                <div class="text-center">
+                    @Lang("_Global_ServerError_ReferenceCode"): <span class="font-weight-bold">@(((int)Model).ToString("D8"))</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

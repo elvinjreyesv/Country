@@ -1,0 +1,45 @@
+﻿@{
+    var language = (string)ViewBag.CultureTwoLetterName;
+    var languageName = language == "ES" ? Lang("_English") : Lang("_Spanish");
+    var newLanguage = language == "ES" ? "EN" : "ES";
+}
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">@Lang("_Countries")</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav flex-grow-1 d-flex justify-content-end">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">@Lang("_Home")</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Country" asp-action="Index">@Lang("_AllCountries")</a>
+                    </li>
+                    <li class="language-container nav-item">
+                        <a class="change-lang nav-link text-dark" href="#" value="@newLanguage">@languageName</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+@Html.Script(@<script type="text/javascript">
+            $('.language-container .change-lang').on('click', function (e) {
+                var lang = $(this).attr('value');
+                if (lang !== '') {
+                    e.preventDefault();
+                    countryApp.Ajax.Post('@Url.Action("ChangeLanguage", "Home")', { returnUrl: '@Context.Request.GetEncodedUrl()', newLang: lang },
+                        function (datos) {
+                            window.location.href = datos.targetUrl.url;
+                        },
+                        function (datos) { }
+                    )
+                }
+            });
+    </script>)

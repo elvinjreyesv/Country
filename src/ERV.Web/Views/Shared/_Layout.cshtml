@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Elvin Reyes" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href="~/favicon.ico" />
+
+    <meta name="description" content="countries" />
+    <meta name="keywords" content="countries, regions, subRegions" />
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+    <title>@ViewBag.Title</title>
+
+     <environment include="Development">
+         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true">
+         <link rel="stylesheet" href="~/css/style.min.css" asp-append-version="true">
+     </environment>
+</head>
+<body>
+    @await Html.PartialAsync("~/Views/Shared/Partials/_Nav.cshtml")
+
+    <div id="app">
+        @RenderBody()
+    </div>
+
+    @await Html.PartialAsync("~/Views/Shared/Partials/_Footer.cshtml")
+
+     <div id="overlayer"></div>
+        <div class="loader">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        </div>
+
+    <form id="__AjaxForm">@Html.AntiForgeryToken()</form>
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/lib/limonte-sweetalert2/sweetalert2.all.min.js"></script>
+        <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.min.js" integrity="sha512-rCO3ZZnxh9j/Y725Iq2Cqr2lc9fi83zVeN3PFTUosktylZsCFjD13PDbKrzKjKO/idjM4KlMQC52AsoGFTAe6A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.0/vue.min.js" 
+            integrity="sha512-ZjkdNWvVA3C4ZhiL2HoYnUVHB0cLCJwQl/YU5IXgmVSGSsLhpBg5rAIiltBeEpjjNcmxb2F4nePSh1O91J0FCg==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer"></script>*@
+        <script src="~/lib/chosen/chosen.jquery.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+    @Html.RenderPartialViewScripts()
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

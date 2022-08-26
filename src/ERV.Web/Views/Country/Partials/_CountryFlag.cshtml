@@ -1,0 +1,11 @@
+﻿@model CountryInfoDTO
+
+@if (Model != null)
+{
+    <div class="col-sm-12 col-lg-4 mb-4">
+        <a class="text-decoration-none" asp-controller="Country" asp-action="Country" asp-route-code="@Model.Code">
+            <img class="img-fluid rounded" src="@Model.Flag?.Png" style="width:7rem;" />
+            <div> <span class="text-center">@Model.Name</span></div>
+        </a>
+    </div>
+}
